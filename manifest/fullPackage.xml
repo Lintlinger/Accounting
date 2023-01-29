@@ -29,7 +29,6 @@
     </types>
     <types>
         <members>Accounting</members>
-        <members>Invoicing</members>
         <name>CustomApplication</name>
     </types>
     <types>
@@ -272,7 +271,6 @@
         <members>Invoice_Record_Page</members>
         <members>Invoice_Template_Record_Page</members>
         <members>Project_Record_Page</members>
-        <members>Invoice_Record_Page1</members>
         <name>FlexiPage</name>
     </types>
     <types>

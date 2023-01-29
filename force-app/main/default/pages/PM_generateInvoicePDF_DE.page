@@ -16,7 +16,8 @@
     <img src="{!$Resource.CSS_Logo}" width="50%"/>
 </div>
 
-<p><u>{!$Label.Company_Name}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {!$Label.Anschrift} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mobile: {!$Label.Mobile}</u></p>
+<p style="font-size:12px;">{!$Label.Company_Name}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {!$Label.Anschrift} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mobile: {!$Label.Mobile}</p>
+<hr style="height:2px;border-width:0;color:black;background-color:gray"/>
 <p style="text-align: left;">{!Invoice__c.DisplayAccountName__c}<br /> {!Invoice__c.DisplayAccountBillingAddress__c}<br /> {!Invoice__c.DisplayAccountBillingCity__c}</p>
 <p style="text-align: right;">
   <strong>
@@ -44,26 +45,26 @@
 <!-- START Table Resources-->
 
 <apex:pageBlock >
-  <apex:pageBlockTable style="border:1px solid black" value="{!positionsMap}" var="p" border="1px solid black">
-      <apex:column style="border:1px solid black" width="80px" >
+  <apex:pageBlockTable value="{!positionsMap}" var="p">
+      <apex:column width="80px" >
         <apex:facet name="header"> Pos </apex:facet>
         <apex:outputText value="{!p}"/>
       </apex:column>
-      <apex:column style="border:1px solid black" width="210px" >
-        <apex:facet name="header"> Produkt </apex:facet>
+      <apex:column width="210px" >
+        <apex:facet name="header"> Ressource </apex:facet>
         <apex:outputText value="{!positionsMap[p].provided_service}"/>
       </apex:column>
-      <apex:column style="border:1px solid black" width="120px" >
+      <apex:column width="120px" >
         <apex:facet name="header"> Stundensatz </apex:facet>
         <apex:outputText value="{0,number,###0.0€}">
           <apex:param value="{!positionsMap[p].daily_rate}" />
         </apex:outPutText>
       </apex:column>
-      <apex:column style="border:1px solid black" width="110px" >
+      <apex:column width="110px" >
         <apex:facet name="header"> Stunden </apex:facet>
         <apex:outputText value="{!positionsMap[p].worked_hours}"/>
       </apex:column>
-      <apex:column style="border:1px solid black" width="110px" >
+      <apex:column width="110px" >
         <apex:facet name="header"> Betrag </apex:facet>
         <apex:outputText value="{0,number,###0.00€}">
           <apex:param value="{!positionsMap[p].amount}" />
@@ -123,60 +124,51 @@
 <p><br />Bitte bezahlen Sie die Rechnung an die unten genannte Bankverbindung.</p>
 <p>Mit freundlichen Gr&uuml;&szlig;en<br /> Joachim Lintl</p>
 
-<br />
-<br />
-<br />
-<br />
-<br />
--------------------------------------------------------------------------------------------------------------------------------------
+<br/>
+<hr/>
 <table >
   <tr>
     <td width="250">
       <p style="text-align: left;">{!$Label.Company_Name}<br /> {!$Label.Company_Street}<br /> {!$Label.Company_PostalCode}</p>
     </td>
-    <td width="200" >
+    <td width="280" >
       <p style="text-align: left;">St-Nr.: {!$Label.Steuernummer} <br /> USt-ldNr.: {!$Label.USt_ldNr} </p>
     </td>
-    <!--td width="200" ><p style="text-align: left;">UMst-Nr.: 34/277/04078</p></td-->
-    <td width="250">
-      <p style="text-align: left;"> E-Mail: {!$Label.Contact_Email}</p>
-    </td>
     <td width="320">
-      <!--p style="text-align: left;">Bank: Deutsche Bank<br /> IBAN: DE45100700240145115200 <br />BIC: DEUTDEDBBER</p-->
       <p style="text-align: left;">Bank: {!$Label.Bank}<br /> IBAN: {!$Label.IBAN} <br />BIC: {!$Label.BIC}</p>
     </td>
   </tr>
 </table>
-
-<!--p>Lanespot Solutions&nbsp; &nbsp; &nbsp;St-Nr.: 34/277/04078&nbsp; &nbsp; &nbsp;Telefon: +(49) 151 40748149&nbsp; &nbsp; &nbsp; Bank: Deutsche Bank <br /> 
-Rosenthaler Str. 5&nbsp; &nbsp; &nbsp;      &nbsp; &nbsp; &nbsp;E-Mail: iemilov@lanespot.com &nbsp; &nbsp; &nbsp; IBAN: DE45 1007 0024 0145 1152 00 </p-->
 <br/>
 <br/>
 <br/>
-<!--/div >
-  <img src="{!$Resource.Lanespot}" width="15%"/>
-</div-->
+<div>
+  <img src="{!$Resource.CSS_Logo}" width="50%"/>
+</div>
+<p style="text-align: left;">
+  <strong>Tätigkeitsbericht für {!Invoice__c.PerformanceMonth__c}</strong>
+</p>
 <br/>
 
 <apex:pageBlock >
   <!--apex:relatedList list="Times__r" /-->
-<apex:pageBlockTable style="border:1px solid black" value="{!times}" var="time" border="1px solid black">
-      <apex:column style="border:1px solid black" width="100px" >
-        <apex:facet name="header"> Hours </apex:facet>
+<apex:pageBlockTable value="{!times}" var="time">
+      <apex:column width="120px" >
+        <apex:facet name="header"> Stunden </apex:facet>
         <apex:outputText value="{!time.Hours__c}"/>
       </apex:column>
-      <apex:column style="border:1px solid black" width="470px" >
-        <apex:facet name="header"> Description </apex:facet>
-        <apex:outputtext style="white-space:pre-wrap;" value="{!time.Description__c}" escape="false" /><br /> 
+      <apex:column width="400px" >
+        <apex:facet name="header"> Beschreibung </apex:facet>
+        <apex:outputtext value="{!time.Description__c}" escape="false" /><br /> 
       </apex:column>
-      <apex:column style="border:1px solid black" width="150px">
-        <apex:facet name="header"> Date </apex:facet>
+      <apex:column width="140px">
+        <apex:facet name="header"> Datum </apex:facet>
         <apex:outputtext value="{0, date, medium}">
           <apex:param value="{!time.Date__c}"></apex:param>
         </apex:outputtext>
       </apex:column>
-      <apex:column style="border:1px solid black" width="350px">
-        <apex:facet name="header"> Project </apex:facet>
+      <apex:column width="400px">
+        <apex:facet name="header"> Projekt </apex:facet>
         <apex:outputText value="{!time.Project__r.Name}"/>
       </apex:column>
   </apex:pageBlockTable>
