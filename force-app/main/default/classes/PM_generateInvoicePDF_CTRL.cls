@@ -25,7 +25,7 @@ public with sharing class PM_generateInvoicePDF_CTRL {
         } else if (language == 'English'){
             emailTemplate=[SELECT Id,name,Body,htmlvalue, Subject FROM EmailTemplate where DeveloperName=:Constants.EmailTemplate_SendInvoice_EN_ID];
         } else {
-            system.debug('no templaze has beed selected');
+            system.debug('no template has beed selected');
         }
 
         List <Invoice__c> currentInvoiceList= [select Id, InvoiceTemplate__r.Name, PerformanceMonth__c, InvoiceTemplate__r.Account__r.BillingEmail__c, InvoiceTemplate__c, Status__c, Name FROM Invoice__c where id=:invoiceId WITH SECURITY_ENFORCED];

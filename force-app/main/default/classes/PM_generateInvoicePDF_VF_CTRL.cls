@@ -30,7 +30,7 @@ public with sharing class PM_generateInvoicePDF_VF_CTRL {
 
 
     public List <TimeCard__c> getTimes(Id templateId) {
-        return [SELECT Date__c, Invoicetemplate__c, Description__c, Project__r.Name, Hours__c, Resource__c
+        return [SELECT Date__c, Invoicetemplate__c, Description__c,Project__c, Project__r.Name, Hours__c, Resource__c
         FROM TimeCard__c
         WHERE Invoicetemplate__c=:templateId
         AND Status__c=:TIME_STATUS
@@ -44,16 +44,16 @@ public with sharing class PM_generateInvoicePDF_VF_CTRL {
     public Map <Integer,InvoicePosition> getInvoicePositions(List <TimeCard__c> times, Id templateId) {
         total_amount_all_resources=0;
         Map <Integer,InvoicePosition> positionsMap = new Map <Integer,InvoicePosition>();
-        List <AssignResourse__c> resources=[select Contact__c, DailyRate__c, ProjectRole__c from AssignResourse__c where InvoiceTemplate__c=:templateId];
-        
+        List <AssignResourse__c> resources=[select Contact__c, DailyRate__c, CSS_Project__c,CSS_Project__r.Name,ProjectRole__c from AssignResourse__c where InvoiceTemplate__c=:templateId];
+    
         for(Integer i=0; i<resources.size(); i++){
             Decimal hours = 0;
             Decimal amount;
             for (TimeCard__c t: times){
-                if (t.Resource__c==resources[i].Contact__c){
+                if (t.Resource__c==resources[i].Contact__c && t.Project__c==resources[i].CSS_Project__c){
                     hours = hours + t.Hours__c;
                     amount=hours*resources[i].DailyRate__c;
-                    InvoicePosition invoicePosition = new InvoicePosition(resources[i].ProjectRole__c,resources[i].DailyRate__c, hours, amount );
+                    InvoicePosition invoicePosition = new InvoicePosition(resources[i].ProjectRole__c,resources[i].DailyRate__c, hours, amount,resources[i].CSS_Project__r.Name );
                     positionsMap.put(i+1, invoicePosition);
                 }
             }
@@ -69,12 +69,21 @@ public with sharing class PM_generateInvoicePDF_VF_CTRL {
         public Decimal daily_rate {get;set;}
         public Decimal worked_hours {get;set;}
         public Decimal amount {get;set;}
+        public String project {get;set;}
 
         public InvoicePosition(String provided_service, Decimal daily_rate, Decimal worked_hours, Decimal amount) {
             this.provided_service = provided_service;
             this.daily_rate = daily_rate;
             this.worked_hours= worked_hours;
             this.amount=amount;
+        }
+
+        public InvoicePosition(String provided_service, Decimal daily_rate, Decimal worked_hours, Decimal amount,String project) {
+            this.provided_service = provided_service;
+            this.daily_rate = daily_rate;
+            this.worked_hours= worked_hours;
+            this.amount=amount;
+            this.project=project;
         }
     }
 }

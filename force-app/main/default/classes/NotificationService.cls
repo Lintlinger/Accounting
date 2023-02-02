@@ -20,7 +20,7 @@ public with sharing class NotificationService {
         String emailSubject= 'Rechnung '+ currentInvoice.Name + ' Lesitungszeitraum '+ currentInvoice.PerformanceMonth__c + ' - Salesforce Technical Architect';
         Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
         try{
-            message.setSenderDisplayName('Lanespot Solutions'); 
+            message.setSenderDisplayName('CloudShift solutions'); 
             message.setUseSignature(false);
             message.setBccSender(false); 
             message.setSaveAsActivity(false);

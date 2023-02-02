@@ -51,7 +51,11 @@
         <apex:outputText value="{!p}"/>
       </apex:column>
       <apex:column width="210px" >
-        <apex:facet name="header"> Ressource </apex:facet>
+        <apex:facet name="header"> Projekt </apex:facet>
+        <apex:outputText value="{!positionsMap[p].project}"/>
+      </apex:column>
+      <apex:column width="210px" >
+        <apex:facet name="header"> Rolle </apex:facet>
         <apex:outputText value="{!positionsMap[p].provided_service}"/>
       </apex:column>
       <apex:column width="120px" >
