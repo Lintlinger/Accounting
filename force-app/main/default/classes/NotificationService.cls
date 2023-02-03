@@ -17,7 +17,7 @@ public with sharing class NotificationService {
     public static void sendEmail( EmailTemplate emailTemplate, Invoice__c currentInvoice, List <Id> filesList ){
 
         String billingEmail=currentInvoice.InvoiceTemplate__r.Account__r.BillingEmail__c;
-        String emailSubject= 'Rechnung '+ currentInvoice.Name + ' Lesitungszeitraum '+ currentInvoice.PerformanceMonth__c + ' - Salesforce Technical Architect';
+        String emailSubject= 'Rechnung '+ currentInvoice.Name + ' Leistungszeitraum '+ currentInvoice.PerformanceMonth__c + ' - Salesforce Technical Architect';
         Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
         try{
             message.setSenderDisplayName('CloudShift solutions GmbH'); 
