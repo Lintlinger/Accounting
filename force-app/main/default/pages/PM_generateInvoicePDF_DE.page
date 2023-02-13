@@ -11,11 +11,10 @@
 
 
 <apex:page showHeader="false" standardController="Invoice__c" extensions="PM_generateInvoicePDF_VF_CTRL" action="{!updateInvoice}" standardStylesheets="false" Language="de" renderAs="PDF">
-<div >
-    <img src="{!$Resource.CSS_Logo}" width="50%"/>
+<div>
+    <img style="float: right;" src="{!$Resource.CSS_Logo}" width="50%"/>
 </div>
-
-<p style="font-size:12px;">{!$Label.Company_Name}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {!$Label.Anschrift} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mobile: {!$Label.Mobile}</p>
+<p style="font-size:12px;clear: right;">{!$Label.Company_Name}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {!$Label.Anschrift} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mobile: {!$Label.Mobile}</p>
 <hr style="height:2px;border-width:0;color:black;background-color:gray"/>
 <p style="text-align: left;">{!Invoice__c.DisplayAccountName__c}<br /> {!Invoice__c.DisplayAccountBillingAddress__c}<br /> {!Invoice__c.DisplayAccountBillingCity__c}</p>
 <p style="text-align: right;">
