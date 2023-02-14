@@ -75,7 +75,8 @@
       </apex:column>
   </apex:pageBlockTable>
 </apex:pageBlock>
-
+<br/>
+<hr/>
 <!-- END Table Resources-->
 
 <table width="643">
@@ -84,7 +85,7 @@
 <td width="520">
 <p><strong>Zwischensumme Netto</strong></p>
 </td>
-<td width="107">
+<td width="107" style="text-align:right;">
 <!--p>{!Invoice__c.Amount__c} &euro;</p-->
 <p>
   <apex:outputText value="{0,number,###0.00}">
@@ -98,7 +99,7 @@
 <td width="520">
 <p><strong>Umsatzsteuer 19%</strong></p>
 </td>
-<td width="107">
+<td width="107" style="text-align:right;">
 <p>
   <apex:outputText value="{0,number,###0.00}">
   <apex:param value="{!total_amount_all_resources * 0.19}" />
@@ -111,7 +112,7 @@
 <td width="520">
 <p><strong>Gesamtbetrag</strong></p>
 </td>
-<td width="107">
+<td width="107" style="text-align:right;">
   <p>
     <apex:outputText value="{0,number,###0.00}">
     <apex:param value="{!total_amount_all_resources * 0.19 + total_amount_all_resources}" />
