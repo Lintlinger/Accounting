@@ -37,6 +37,11 @@
 
 <p>Sehr geehrte Damen und Herren,</p>
 <p>Hiermit stelle ich Ihnen die folgenden Positionen in Rechnung.</p>
+<br/>
+<p style="text-align: left;">
+  <strong>Beratungsleistung</strong>
+</p>
+<br/>
 
 
 
@@ -72,6 +77,38 @@
           <apex:param value="{!positionsMap[p].amount}" />
         </apex:outPutText>
 
+      </apex:column>
+  </apex:pageBlockTable>
+</apex:pageBlock>
+<br/>
+<hr/>
+<p style="text-align: left;" rendered="{!expenses.size > 0}">
+  <strong>Pauschalen</strong>
+</p>
+<br/>
+<apex:variable value="{!0}" var="index" />
+<apex:pageBlock rendered="{!expenses.size > 0}">
+  <apex:pageBlockTable value="{!expenses}" var="e">
+      <apex:column width="80px" >
+        <apex:facet name="header"> Pos </apex:facet>
+        <apex:outputText>
+        <apex:variable value="{!index + 1}" var="index" />
+        {!index}
+        </apex:outputText>
+      </apex:column>
+      <apex:column width="210px" >
+        <apex:facet name="header"> Typ </apex:facet>
+        <apex:outputText value="{!e.Type__c}"/>
+      </apex:column>
+      <apex:column width="210px" >
+        <apex:facet name="header"> Betrag </apex:facet>
+        <apex:outputText value="{0,number,###0.0€}">
+          <apex:param value="{!e.AmountNetto19__c}" />
+        </apex:outPutText>
+      </apex:column>
+      <apex:column width="340px" >
+        <apex:facet name="header"> Beschreibung </apex:facet>
+        <apex:outputText value="{!e.Description__c}"/>
       </apex:column>
   </apex:pageBlockTable>
 </apex:pageBlock>

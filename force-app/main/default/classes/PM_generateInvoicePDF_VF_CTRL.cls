@@ -11,6 +11,7 @@ public with sharing class PM_generateInvoicePDF_VF_CTRL {
     public Invoice__c invoice {get;set;} 
     public List <TimeCard__c> times {get;set;}
     public Map <Integer,InvoicePosition> positionsMap {get;set;}
+    public List <Expense__c> expenses {get;set;}
     public Decimal total_amount_all_resources {get;set;}
   
     public PM_generateInvoicePDF_VF_CTRL(ApexPages.StandardController controller) {
@@ -19,6 +20,7 @@ public with sharing class PM_generateInvoicePDF_VF_CTRL {
         Id templateId = getTemplateId(invoice);
         times=getTimes(templateId);
         positionsMap= getInvoicePositions(times, templateId);
+        expenses = getExpenses(invoice.Id);
         // temp
     }
 
@@ -63,6 +65,16 @@ public with sharing class PM_generateInvoicePDF_VF_CTRL {
         }
         return positionsMap;
     }
+
+    public List<Expense__c> getExpenses(Id invoiceId){
+
+        List<Expense__c> expenseList = [SELECT Id, Name, AmountNetto19__c, Description__c, DateIncurred__c, Contact__c, toLabel(Type__c), Project__c, RecordTypeId FROM Expense__c WHERE RecordType.DeveloperName='CSS_Billable' AND CSS_Invoice__c=: invoiceId];
+        for(Expense__c e : expenseList){
+            total_amount_all_resources=total_amount_all_resources + e.AmountNetto19__c;
+        }
+        return expenseList;
+
+    } 
 
     public class InvoicePosition{
         public String provided_service {get;set;}
