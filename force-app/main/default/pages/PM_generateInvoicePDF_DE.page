@@ -82,12 +82,12 @@
 </apex:pageBlock>
 <br/>
 <hr/>
-<p style="text-align: left;" rendered="{!expenses.size > 0}">
-  <strong>Pauschalen</strong>
-</p>
 <br/>
 <apex:variable value="{!0}" var="index" />
-<apex:pageBlock rendered="{!expenses.size > 0}">
+<apex:pageBlock  rendered="{!expenses.size > 0}">
+  <p style="text-align: left;">
+    <strong>Ausgaben</strong>
+  </p>
   <apex:pageBlockTable value="{!expenses}" var="e">
       <apex:column width="80px" >
         <apex:facet name="header"> Pos </apex:facet>
@@ -111,9 +111,9 @@
         <apex:outputText value="{!e.Description__c}"/>
       </apex:column>
   </apex:pageBlockTable>
+  <br/>
+  <hr/>
 </apex:pageBlock>
-<br/>
-<hr/>
 <!-- END Table Resources-->
 
 <table width="643">
