@@ -28,7 +28,7 @@ public with sharing class PM_generateInvoicePDF_CTRL {
             system.debug('no template has beed selected');
         }
 
-        List <Invoice__c> currentInvoiceList= [select Id, InvoiceTemplate__r.Name, PerformanceMonth__c, InvoiceTemplate__r.Account__r.BillingEmail__c, InvoiceTemplate__c, Status__c, Name FROM Invoice__c where id=:invoiceId WITH SECURITY_ENFORCED];
+        List <Invoice__c> currentInvoiceList= [select Id, InvoiceTemplate__r.Name, PerformanceMonth__c, InvoiceTemplate__r.Account__r.BillingEmail__c, InvoiceTemplate__c, Status__c, Name,CSS_InvoiceNo__c FROM Invoice__c where id=:invoiceId WITH SECURITY_ENFORCED];
         Id currentInvoiceId=currentInvoiceList.get(0).Id;
         if (!currentInvoiceList.IsEmpty()){
             currentInvoice = currentInvoiceList.get(0);

@@ -30,9 +30,8 @@
   Leistungszeitraum:&nbsp;<apex:outputField value="{!Invoice__c.Month__c}"/>&nbsp;{!YEAR(TODAY())}
   </strong>
 </p>
-<br />
 <p style="text-align: left;">
-  <strong>Betreff: Rechnung {!Invoice__c.Name}</strong>
+  <strong>Betreff: Rechnung {!Invoice__c.CSS_InvoiceNo__c}</strong>
 </p>
 
 <p>Sehr geehrte Damen und Herren,</p>
@@ -41,10 +40,6 @@
 <p style="text-align: left;">
   <strong>Beratungsleistung</strong>
 </p>
-<br/>
-
-
-
 <!-- START Table Resources-->
 
 <apex:pageBlock >
@@ -80,9 +75,7 @@
       </apex:column>
   </apex:pageBlockTable>
 </apex:pageBlock>
-<br/>
 <hr/>
-<br/>
 <apex:variable value="{!0}" var="index" />
 <apex:pageBlock  rendered="{!expenses.size > 0}">
   <p style="text-align: left;">
@@ -111,7 +104,6 @@
         <apex:outputText value="{!e.Description__c}"/>
       </apex:column>
   </apex:pageBlockTable>
-  <br/>
   <hr/>
 </apex:pageBlock>
 <!-- END Table Resources-->
@@ -160,10 +152,12 @@
 </tr>
 </tbody>
 </table>
-
-<p><br />Bitte bezahlen Sie die Rechnung an die unten genannte Bankverbindung.</p>
-<p>Mit freundlichen Gr&uuml;&szlig;en<br /> Joachim Lintl</p>
-
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 <br/>
 <hr/>
 <table >
@@ -179,9 +173,6 @@
     </td>
   </tr>
 </table>
-<br/>
-<br/>
-<br/>
 <div>
   <img src="{!$Resource.CSS_Logo}" width="50%"/>
 </div>
@@ -197,7 +188,7 @@
         <apex:facet name="header"> Stunden </apex:facet>
         <apex:outputText value="{!time.Hours__c}"/>
       </apex:column>
-      <apex:column width="400px" >
+      <apex:column width="600px" >
         <apex:facet name="header"> Beschreibung </apex:facet>
         <apex:outputtext value="{!time.Description__c}" escape="false" /><br /> 
       </apex:column>
