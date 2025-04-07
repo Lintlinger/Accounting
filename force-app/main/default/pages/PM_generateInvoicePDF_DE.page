@@ -10,187 +10,218 @@
 -->
 
 
-<apex:page showHeader="false" standardController="Invoice__c" extensions="PM_generateInvoicePDF_VF_CTRL" action="{!updateInvoice}" standardStylesheets="false" Language="de" renderAs="PDF">
-<div>
-    <img style="float: right;" src="{!$Resource.CRS_Logo}" width="50%"/>
-</div>
-<p style="font-size:12px;clear: right;">{!$Label.Company_Name}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {!$Label.Anschrift} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mobile: {!$Label.Mobile}</p>
-<hr style="height:2px;border-width:0;color:black;background-color:gray"/>
-<p style="text-align: left;">{!Invoice__c.DisplayAccountName__c}<br /> {!Invoice__c.DisplayAccountBillingAddress__c}<br /> {!Invoice__c.DisplayAccountBillingCity__c}</p>
-<p style="text-align: right;">
-  <strong>
-    Rechnungsdatum:
-    <apex:outputText value="{0,date, dd'.'MM'.'yyyy}">
-    <apex:param value="{!TODAY()}" /> 
-    </apex:outputText>
-  </strong>
-</p>
-<p style="text-align: right;">  
-  <strong>
-  Leistungszeitraum:&nbsp;<apex:outputField value="{!Invoice__c.Month__c}"/>&nbsp;{!YEAR(TODAY())}
-  </strong>
-</p>
-<p style="text-align: left;">
-  <strong>Betreff: Rechnung {!Invoice__c.CSS_InvoiceNo__c}</strong>
-</p>
+<apex:page showHeader="false" standardController="Invoice__c" extensions="PM_generateInvoicePDF_VF_CTRL" action="{!updateInvoice}"
+  standardStylesheets="false" Language="de" renderAs="PDF">
+  <div>
+    <img style="float: right;" src="{!$Resource.CRS_Logo}" width="50%" />
+  </div>
+  <p style="font-size:12px;clear: right;">{!$Label.Company_Name}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {!$Label.Anschrift} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mobile:
+    {!$Label.Mobile}
+  </p>
+  <hr style="height:2px;border-width:0;color:black;background-color:gray" />
+  <p style="text-align: left;">{!Invoice__c.DisplayAccountName__c}
+    <br /> {!Invoice__c.DisplayAccountBillingAddress__c}
+    <br /> {!Invoice__c.DisplayAccountBillingCity__c}</p>
+  <p style="text-align: right;">
+    <strong>
+      Rechnungsdatum:
+      <apex:outputText value="{0,date, dd'.'MM'.'yyyy}">
+        <apex:param value="{!TODAY()}" />
+      </apex:outputText>
+    </strong>
+  </p>
+  <apex:outputPanel rendered="{!IF(ISBLANK(Invoice__c.CSS_PerformancePeriod__c), true, false)}">
+  <p style="text-align: right;">
+    <strong>
+      Leistungszeitraum:&nbsp;
+      <apex:outputField value="{!Invoice__c.PerformanceMonth__c}" />
+    </strong>
+  </p>
+  </apex:outputPanel>
+  <apex:outputPanel rendered="{!IF(!ISBLANK(Invoice__c.CSS_PerformancePeriod__c), true, false)}">
+  <p style="text-align: right;">
+    <strong>
+      Leistungszeitraum:&nbsp;
+      <apex:outputField value="{!Invoice__c.CSS_PerformancePeriod__c}" />
+    </strong>
+  </p>
+  </apex:outputPanel>
+  <p style="text-align: left;">
+    <strong>Betreff: Rechnung {!Invoice__c.CSS_InvoiceNo__c}</strong>
+  </p>
 
-<p>Sehr geehrte Damen und Herren,</p>
-<p>Hiermit stelle ich Ihnen die folgenden Positionen in Rechnung.</p>
-<br/>
-<p style="text-align: left;">
-  <strong>Beratungsleistung</strong>
-</p>
-<!-- START Table Resources-->
+  <p>Sehr geehrte Damen und Herren,</p>
+  <apex:outputPanel rendered="{!IF(ISBLANK(Invoice__c.CSS_OrderNumber__c), false, true)}">
+    <p>Hiermit stelle ich Ihnen die folgenden Positionen, basierend auf der Bestellnummer  &nbsp; <apex:outputField value="{!Invoice__c.CSS_OrderNumber__c}" /> in Rechnung.</p>
+  </apex:outputPanel>
+  <apex:outputPanel rendered="{!IF(ISBLANK(Invoice__c.CSS_OrderNumber__c), true, false)}">
+    <p>Hiermit stelle ich Ihnen die folgenden Positionen in Rechnung.</p>
+  </apex:outputPanel>
+  <br/>
+  <p style="text-align: left;">
+    <strong>Beratungsleistung</strong>
+  </p>
+  <!-- START Table Resources-->
 
-<apex:pageBlock >
-  <apex:pageBlockTable value="{!positionsMap}" var="p">
-      <apex:column width="80px" >
+  <apex:pageBlock>
+    <apex:pageBlockTable value="{!positionsMap}" var="p">
+      <apex:column width="80px">
         <apex:facet name="header"> Pos </apex:facet>
-        <apex:outputText value="{!p}"/>
+        <apex:outputText value="{!p}" />
       </apex:column>
-      <apex:column width="210px" >
+      <apex:column width="210px">
         <apex:facet name="header"> Projekt </apex:facet>
-        <apex:outputText value="{!positionsMap[p].project}"/>
+        <apex:outputText value="{!positionsMap[p].project}" />
       </apex:column>
-      <apex:column width="210px" >
+      <apex:column width="210px">
         <apex:facet name="header"> Rolle </apex:facet>
-        <apex:outputText value="{!positionsMap[p].provided_service}"/>
+        <apex:outputText value="{!positionsMap[p].provided_service}" />
       </apex:column>
-      <apex:column width="120px" >
+      <apex:column width="120px">
         <apex:facet name="header"> Stundensatz </apex:facet>
         <apex:outputText value="{0,number,###0.0€}">
           <apex:param value="{!positionsMap[p].daily_rate}" />
         </apex:outPutText>
       </apex:column>
-      <apex:column width="110px" >
+      <apex:column width="110px">
         <apex:facet name="header"> Stunden </apex:facet>
-        <apex:outputText value="{!positionsMap[p].worked_hours}"/>
+        <apex:outputText value="{!positionsMap[p].worked_hours}" />
       </apex:column>
-      <apex:column width="110px" >
+      <apex:column width="110px">
         <apex:facet name="header"> Betrag </apex:facet>
         <apex:outputText value="{0,number,###0.00€}">
           <apex:param value="{!positionsMap[p].amount}" />
         </apex:outPutText>
 
       </apex:column>
-  </apex:pageBlockTable>
-</apex:pageBlock>
-<hr/>
-<apex:variable value="{!0}" var="index" />
-<apex:pageBlock  rendered="{!expenses.size > 0}">
-  <p style="text-align: left;">
-    <strong>Ausgaben</strong>
-  </p>
-  <apex:pageBlockTable value="{!expenses}" var="e">
-      <apex:column width="80px" >
+    </apex:pageBlockTable>
+  </apex:pageBlock>
+  <hr/>
+  <apex:variable value="{!0}" var="index" />
+  <apex:pageBlock rendered="{!expenses.size > 0}">
+    <p style="text-align: left;">
+      <strong>Ausgaben</strong>
+    </p>
+    <apex:pageBlockTable value="{!expenses}" var="e">
+      <apex:column width="80px">
         <apex:facet name="header"> Pos </apex:facet>
         <apex:outputText>
-        <apex:variable value="{!index + 1}" var="index" />
-        {!index}
+          <apex:variable value="{!index + 1}" var="index" /> {!index}
         </apex:outputText>
       </apex:column>
-      <apex:column width="210px" >
+      <apex:column width="210px">
         <apex:facet name="header"> Typ </apex:facet>
-        <apex:outputText value="{!e.Type__c}"/>
+        <apex:outputText value="{!e.Type__c}" />
       </apex:column>
-      <apex:column width="210px" >
+      <apex:column width="210px">
         <apex:facet name="header"> Betrag </apex:facet>
         <apex:outputText value="{0,number,###0.0€}">
           <apex:param value="{!e.AmountNetto19__c}" />
         </apex:outPutText>
       </apex:column>
-      <apex:column width="340px" >
+      <apex:column width="340px">
         <apex:facet name="header"> Beschreibung </apex:facet>
-        <apex:outputText value="{!e.Description__c}"/>
+        <apex:outputText value="{!e.Description__c}" />
       </apex:column>
-  </apex:pageBlockTable>
+    </apex:pageBlockTable>
+    <hr/>
+  </apex:pageBlock>
+  <!-- END Table Resources-->
+
+  <table width="643">
+    <tbody>
+      <tr>
+        <td width="520">
+          <strong>Zwischensumme Netto</strong>
+        </td>
+        <td width="107" style="text-align:right;">
+          <!--p>{!Invoice__c.Amount__c} &euro;</p-->
+          <apex:outputText value="{0,number,###0.00}">
+            <apex:param value="{!total_amount_all_resources}" />
+          </apex:outPutText>
+          &euro;
+        </td>
+      </tr>
+      <tr>
+        <td width="520">
+          <strong>Umsatzsteuer 19%</strong>
+        </td>
+        <td width="107" style="text-align:right;">
+          <apex:outputText value="{0,number,###0.00}">
+            <apex:param value="{!total_amount_all_resources * 0.19}" />
+          </apex:outPutText>
+          &euro;
+        </td>
+      </tr>
+      <tr>
+        <td width="520">
+          <strong>Gesamtbetrag</strong>
+        </td>
+        <td width="107" style="text-align:right;">
+          <apex:outputText value="{0,number,###0.00}">
+            <apex:param value="{!total_amount_all_resources * 0.19 + total_amount_all_resources}" />
+          </apex:outPutText>
+          &euro;
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
   <hr/>
-</apex:pageBlock>
-<!-- END Table Resources-->
-
-<table width="643">
-<tbody>
-<tr>
-<td width="520">
-<p><strong>Zwischensumme Netto</strong></p>
-</td>
-<td width="107" style="text-align:right;">
-<!--p>{!Invoice__c.Amount__c} &euro;</p-->
-<p>
-  <apex:outputText value="{0,number,###0.00}">
-    <apex:param value="{!total_amount_all_resources}" />
-  </apex:outPutText>
-  &euro;
-</p>
-</td>
-</tr>
-<tr>
-<td width="520">
-<p><strong>Umsatzsteuer 19%</strong></p>
-</td>
-<td width="107" style="text-align:right;">
-<p>
-  <apex:outputText value="{0,number,###0.00}">
-  <apex:param value="{!total_amount_all_resources * 0.19}" />
-  </apex:outPutText>
-  &euro;
-</p>
-</td>
-</tr>
-<tr>
-<td width="520">
-<p><strong>Gesamtbetrag</strong></p>
-</td>
-<td width="107" style="text-align:right;">
-  <p>
-    <apex:outputText value="{0,number,###0.00}">
-    <apex:param value="{!total_amount_all_resources * 0.19 + total_amount_all_resources}" />
-    </apex:outPutText>
-    &euro;
+  <table>
+    <tr>
+      <td width="250">
+        <p style="text-align: left;">{!$Label.Company_Name}
+          <br /> {!$Label.Company_Street}
+          <br /> {!$Label.Company_PostalCode}</p>
+      </td>
+      <td width="280">
+        <p style="text-align: left;">St-Nr.: {!$Label.Steuernummer}
+          <br /> USt-ldNr.: {!$Label.USt_ldNr} </p>
+      </td>
+      <td width="320">
+        <p style="text-align: left;">Bank: {!$Label.Bank}
+          <br /> IBAN: {!$Label.IBAN}
+          <br />BIC: {!$Label.BIC}</p>
+      </td>
+    </tr>
+  </table>
+  <div>
+    <img src="{!$Resource.CRS_Logo}" width="50%" />
+  </div>
+  <p style="text-align: left;">
+    <apex:outputPanel rendered="{!IF(ISBLANK(Invoice__c.CSS_PerformancePeriod__c), true, false)}">
+    <strong>Tätigkeitsbericht für &nbsp;
+      <apex:outputField value="{!Invoice__c.PerformanceMonth__c}" /></strong>
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!IF(!ISBLANK(Invoice__c.CSS_PerformancePeriod__c), true, false)}">
+    <strong>Tätigkeitsbericht für &nbsp;
+      <apex:outputField value="{!Invoice__c.CSS_PerformancePeriod__c}" /></strong>
+    </apex:outputPanel>
   </p>
-</td>
-</tr>
-</tbody>
-</table>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<hr/>
-<table >
-  <tr>
-    <td width="250">
-      <p style="text-align: left;">{!$Label.Company_Name}<br /> {!$Label.Company_Street}<br /> {!$Label.Company_PostalCode}</p>
-    </td>
-    <td width="280" >
-      <p style="text-align: left;">St-Nr.: {!$Label.Steuernummer} <br /> USt-ldNr.: {!$Label.USt_ldNr} </p>
-    </td>
-    <td width="320">
-      <p style="text-align: left;">Bank: {!$Label.Bank}<br /> IBAN: {!$Label.IBAN} <br />BIC: {!$Label.BIC}</p>
-    </td>
-  </tr>
-</table>
-<div>
-  <img src="{!$Resource.CRS_Logo}" width="50%"/>
-</div>
-<p style="text-align: left;">
-  <strong>Tätigkeitsbericht für &nbsp;<apex:outputField value="{!Invoice__c.Month__c}"/>&nbsp;{!YEAR(TODAY())}</strong>
-</p>
-<br/>
+  <br/>
 
-<apex:pageBlock >
-  <!--apex:relatedList list="Times__r" /-->
-<apex:pageBlockTable value="{!times}" var="time">
-      <apex:column width="120px" >
+  <apex:pageBlock>
+    <!--apex:relatedList list="Times__r" /-->
+    <apex:pageBlockTable value="{!times}" var="time">
+      <apex:column width="120px">
         <apex:facet name="header"> Stunden </apex:facet>
-        <apex:outputText value="{!time.Hours__c}"/>
+        <apex:outputText value="{!time.Hours__c}" />
       </apex:column>
-      <apex:column width="600px" >
+      <apex:column width="600px">
         <apex:facet name="header"> Beschreibung </apex:facet>
-        <apex:outputtext value="{!time.Description__c}" escape="false" /><br /> 
+        <apex:outputtext value="{!time.Description__c}" escape="false" />
+        <br />
       </apex:column>
       <apex:column width="140px">
         <apex:facet name="header"> Datum </apex:facet>
@@ -200,8 +231,8 @@
       </apex:column>
       <apex:column width="400px">
         <apex:facet name="header"> Projekt </apex:facet>
-        <apex:outputText value="{!time.Project__r.Name}"/>
+        <apex:outputText value="{!time.Project__r.Name}" />
       </apex:column>
-  </apex:pageBlockTable>
-</apex:pageBlock>
+    </apex:pageBlockTable>
+  </apex:pageBlock>
 </apex:page>
