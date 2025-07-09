@@ -34,7 +34,7 @@ public with sharing class PM_generateInvoicePDF_VF_CTRL {
     public List <TimeCard__c> getTimes(Id templateId) {
         return [SELECT Date__c, Invoicetemplate__c, Description__c,Project__c, Project__r.Name, Hours__c, Resource__c
         FROM TimeCard__c
-        WHERE Invoicetemplate__c=:templateId
+        WHERE Invoicetemplate__c=:templateId AND Invoice__c=:invoice.Id
         AND Status__c=:TIME_STATUS
         order by Date__c asc];
     }
