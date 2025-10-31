@@ -60,7 +60,10 @@ public with sharing class PM_generateInvoicePDF_VF_CTRL {
                 }
             }
             if (!positionsMap.KeySet().IsEmpty()){
-                total_amount_all_resources=total_amount_all_resources + positionsMap.get(i+1).amount;
+                System.debug('positionmap :'+positionsMap.get(i+1));
+                if(positionsMap.get(i+1) != null){
+                    total_amount_all_resources=total_amount_all_resources + positionsMap.get(i+1).amount;
+                }
             }
         }
         return positionsMap;
